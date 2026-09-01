@@ -30,4 +30,11 @@ on:
            run: terraform init
 
          - name: Terraform Apply
-           run: terraform destroy -auto-approve
+           run: |
+             if [[ ${{inputs.action}} == "apply" ]]
+             then
+               terraform apply -auto-approve
+             else 
+                terraform destroy -auto-approve
+              fi
+              
