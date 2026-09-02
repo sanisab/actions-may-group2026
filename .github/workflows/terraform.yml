@@ -22,17 +22,25 @@ on:
       instance_type:
         type: string
         description: Please provide instance type
-        
-      instance_type:
+
+      instance_name:
         type: string
-        description: Please provide instance type
-    
+        description: Please provide instance name
+
     jobs:
       deploy:
         runs-on: ubuntu-latest
         steps:
          - uses: actions/checkout@v7
            name: Checkout repository
+
+         - name: Create tfvars file
+           run: |
+           cat <<EOF > terraform.tfvars
+           instance_name = "${{ inputs.instance_name }}"
+           instance_type = "${{ inputs.instance_type }}"
+           region = "${{ inputs.region }}"
+           EOF
 
          - name: Setup Terraform
            uses: hashicorp/setup-terraform@v4
