@@ -8,7 +8,25 @@ on:
         options:
           -apply
           -destroy
-        description: Please type apply or destroy
+        description: Please select apply or destroy
+
+      region:
+        type: string
+        options:
+          -us-east-1
+          -us-east-2
+          -us-west-1
+          -us-west-2
+        description: Please select region
+
+      instance_type:
+        type: string
+        description: Please provide instance type
+        
+      instance_type:
+        type: string
+        description: Please provide instance type
+    
     jobs:
       deploy:
         runs-on: ubuntu-latest
