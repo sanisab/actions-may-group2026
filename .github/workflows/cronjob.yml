@@ -2,67 +2,16 @@ name: Cronjob
 
 on: 
   schedule: 
-    - cron: '*/5 * * * *' # Runs every day at midnight
-  workflow_dispatch:
-    inputs:
-      action:
-        type: choice
-        options:
-          -apply
-          -destroy
-        description: Please select apply or destroy
-        default: apply
+    - cron: '*/5 * * * *'
 
-      region:
-        type: string
-        options:
-          -us-east-1
-          -us-east-2
-          -us-west-1
-          -us-west-2
-        description: Please select region
+workflow_dispatch:
 
-      instance_type:
-        type: string
-        description: Please provide instance type
-
-      instance_name:
-        type: string
-        description: Please provide instance name
-
-    jobs:
-      deploy:
-        runs-on: ubuntu-latest
-        steps:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
          - uses: actions/checkout@v7
            name: Checkout repository
 
-         - name: Create tfvars file
-           run: |
-           cat <<EOF > terraform.tfvars
-           instance_name = "${{ inputs.instance_name }}"
-           instance_type = "${{ inputs.instance_type }}"
-           region = "${{ inputs.region }}"
-           EOF
-
-         - name: Setup Terraform
-           uses: hashicorp/setup-terraform@v4
-
-         - name: Configure AWS Credentials
-           uses: aws-actions/configure-aws-credentials@v6.2.4
-           with:
-            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws-region: us-east-2
-
-         - name: Terraform init
-           run: terraform init
-
-         - name: Terraform Apply
-           run: |
-             if [[ ${{inputs.action}} == "apply" ]]
-             then
-               terraform apply -auto-approve
-             else 
-                terraform destroy -auto-approve
-              fi
+         - name: Run Command
+           run: echo "Hello World"
