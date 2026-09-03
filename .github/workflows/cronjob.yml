@@ -2,7 +2,7 @@ name: Cronjob
 
 on: 
   schedule: 
-    - cron: '0 3 * * *' # Runs every day at midnight
+    - cron: '* * * * *' # Runs every day at midnight
   workflow_dispatch:
     inputs:
       action:
@@ -11,6 +11,7 @@ on:
           -apply
           -destroy
         description: Please select apply or destroy
+        default: apply
 
       region:
         type: string
